@@ -66,4 +66,37 @@ puts "\n 5. Validar o nome correto de um determinado episódio de filme;"
     end
     expect(@valida_titulo['title']).to eq "The Force Awakens"
   end
+
+it 'Validar ID' do
+
+puts "\n 6. Validar o ID do episódio e o tipo do dado está correto;"
+
+    @valida_id = Acesso.get('/films/7/')
+    @valida_titulo = Acesso.get('/films/7/')
+
+    if @valida_id['episode_id'] == 7
+      puts "O ID do filme #{@valida_titulo['title']} é ID:#{@valida_id['episode_id']}."
+    else
+      puts "O ID #{@valida_id['episode_id']} está incorreto para o filme #{@valida_titulo['title']}.\n"
+    end
+    #expect(@valida_id['episode_id']).to eq 7
+  end
+
+  it 'Validar Formato de Data Válida' do
+
+puts "\n 7. Validar o formato de data válida (padrão americano) e validar se a data não é padrão Brasil;"
+
+    @valida_data = Acesso.get ('/films/')
+
+    puts @valida_data.body['release_date'].inspect
+
+  end
+
+# 
+
+  it 'get' do
+  
+puts "\n 8. Validar o peso e altura do “people” C-3PO e validar pelo menos um filme que ele tenha participado."
+
+  end
 end
