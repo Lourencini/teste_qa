@@ -3,20 +3,16 @@
 # require_relative "../services/base_service.rb"
 
 describe 'fazer uma requisição' do
-  
   it 'Validando formato do request' do
-
-puts "\n 1. Validar o formato do request (json valido) para a seguinte API: https://swapi.co/api/films/?format=json"
+    puts "\n 1. Validar o formato do request (json valido) para a seguinte API: https://swapi.co/api/films/?format=json"
 
     @valida_formato = Acesso.get('/films/?format=json')
     puts "O formato do retornado do request foi: #{@valida_formato.headers['Content-Type'].to_json}"
     expect(@valida_formato.headers['Content-Type']).to eq 'application/json'
-    
   end
 
   it 'Validando o retorno HTTP' do
-
-puts "\n 2. Validar se o retorno HTTP é válido para um GET;"
+    puts "\n 2. Validar se o retorno HTTP é válido para um GET;"
 
     @valida_formato = Acesso.get('/films/?format=json')
     if @valida_formato.code == 100 || 200 || 300 || 400 || 500
@@ -27,21 +23,18 @@ puts "\n 2. Validar se o retorno HTTP é válido para um GET;"
   end
 
   it 'Valindo URLs inválidas' do
-  
-puts "\n 3. Validar retornos para URLs inválidas, como por exemplo: https://swapi.co/api/people/?format=jsonx"
+    puts "\n 3. Validar retornos para URLs inválidas, como por exemplo: https://swapi.co/api/people/?format=jsonx"
 
     @valida_url = Acesso.get('/people/?format=jsonx')
     if @valida_url.body == '{"detail":"Not found"}'
       puts "Verifique a URL informada para o request, retorno foi #{@valida_url.code}:#{@valida_url}"
-    else 
-      puts "A URL informada para o request é valida"
+    else
+      puts 'A URL informada para o request é valida'
     end
-    
   end
 
   it 'Valida Filme' do
-
-puts "\n 4. Validar se o filme 10 é válido e qual o tipo de retorno ao consultar;"
+    puts "\n 4. Validar se o filme 10 é válido e qual o tipo de retorno ao consultar;"
 
     @valida_filme = Acesso.get('/films/10/')
 
@@ -50,26 +43,23 @@ puts "\n 4. Validar se o filme 10 é válido e qual o tipo de retorno ao consult
     else
       puts "O filme pesquisado é: #{@valida_filme['title'].inspect}"
     end
-    
   end
 
   it 'Validar Título do Filme 7' do
-
-puts "\n 5. Validar o nome correto de um determinado episódio de filme;"
+    puts "\n 5. Validar o nome correto de um determinado episódio de filme;"
 
     @valida_titulo = Acesso.get('/films/7/')
 
-    if @valida_titulo['title'] == "The Force Awakens"
+    if @valida_titulo['title'] == 'The Force Awakens'
       puts "O filme pesquisado foi #{@valida_titulo['title']}, o título está correto."
     else
       puts "O título do filme é invalido, o título #{@valida_titulo['title']}, está incorreto"
     end
-    expect(@valida_titulo['title']).to eq "The Force Awakens"
+    expect(@valida_titulo['title']).to eq 'The Force Awakens'
   end
 
-it 'Validar ID' do
-
-puts "\n 6. Validar o ID do episódio e o tipo do dado está correto;"
+  it 'Validar ID' do
+    puts "\n 6. Validar o ID do episódio e o tipo do dado está correto;"
 
     @valida_id = Acesso.get('/films/7/')
     @valida_titulo = Acesso.get('/films/7/')
@@ -79,24 +69,29 @@ puts "\n 6. Validar o ID do episódio e o tipo do dado está correto;"
     else
       puts "O ID #{@valida_id['episode_id']} está incorreto para o filme #{@valida_titulo['title']}.\n"
     end
-    #expect(@valida_id['episode_id']).to eq 7
+    
   end
 
   it 'Validar Formato de Data Válida' do
+    puts "\n 7. Validar o formato de data válida (padrão americano) e validar se a data não é padrão Brasil;"
 
-puts "\n 7. Validar o formato de data válida (padrão americano) e validar se a data não é padrão Brasil;"
+    @valida_data = Acesso.get('/films/7')
 
-    @valida_data = Acesso.get ('/films/')
+    require 'time'
+    agora = Time.now
+    day = agora.day.to_s
+    month = agora.mon.to_s
+    year = agora.year.to_s
+    date = year + month + day.to_s
 
-    puts @valida_data.body['release_date'].inspect
-
+    if date == year + month + day
+      puts "A data está no padrão americano, Y/M/D #{@valida_data['release_date']}"
+    else
+      puts "A data está no padrão brasileiro, D/M/Y #{@valida_data['release_date']}"
+    end
   end
 
-# 
-
   it 'get' do
-  
-puts "\n 8. Validar o peso e altura do “people” C-3PO e validar pelo menos um filme que ele tenha participado."
-
+    puts "\n 8. Validar o peso e altura do “people” C-3PO e validar pelo menos um filme que ele tenha participado."
   end
 end
