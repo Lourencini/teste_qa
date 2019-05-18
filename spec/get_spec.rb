@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
-# require_relative "../services/base_service.rb"
-
 describe 'fazer uma requisição' do
   it 'Validando formato do request' do
     puts "\n 1. Validar o formato do request (json valido) para a seguinte API: https://swapi.co/api/films/?format=json"
 
     @valida_formato = Acesso.get('/films/?format=json')
-    puts "O formato do retornado do request foi: #{@valida_formato.headers['Content-Type'].to_json}"
+    puts "O formato retornado pelo request foi: #{@valida_formato.headers['Content-Type'].to_json}"
     expect(@valida_formato.headers['Content-Type']).to eq 'application/json'
   end
 
@@ -27,7 +25,7 @@ describe 'fazer uma requisição' do
 
     @valida_url = Acesso.get('/people/?format=jsonx')
     if @valida_url.body == '{"detail":"Not found"}'
-      puts "Verifique a URL informada para o request, retorno foi #{@valida_url.code}:#{@valida_url}"
+      puts "A URL informada para o request é inválida, o retorno do request foi #{@valida_url.code}:#{@valida_url}"
     else
       puts 'A URL informada para o request é valida'
     end
@@ -65,11 +63,10 @@ describe 'fazer uma requisição' do
     @valida_titulo = Acesso.get('/films/7/')
 
     if @valida_id['episode_id'] == 7
-      puts "O ID do filme #{@valida_titulo['title']} é ID:#{@valida_id['episode_id']}."
+      puts "O ID do filme #{@valida_titulo['title']} é o ID:#{@valida_id['episode_id']}."
     else
       puts "O ID #{@valida_id['episode_id']} está incorreto para o filme #{@valida_titulo['title']}.\n"
     end
-    
   end
 
   it 'Validar Formato de Data Válida' do
@@ -87,13 +84,26 @@ describe 'fazer uma requisição' do
     if date == year + month + day
       puts "A data está no padrão americano, Y/M/D #{@valida_data['release_date']}."
     else
-      puts "A data está no padrão brasileiro, D/M/Y e não no padrão americano Y/M/D."
+      puts 'A data está no padrão brasileiro, D/M/Y e não no padrão americano Y/M/D.'
     end
+    expect(@valida_data['release_date']).to eq '2015-12-11'
   end
 
   it 'Dados C-3PO' do
+    require 'json'
     puts "\n 8. Validar o peso e altura do “people” C-3PO e validar pelo menos um filme que ele tenha participado."
 
-    @dados
+    @dados_people = Acesso.get('/people/2/')
+    @dados_people_film = Acesso.get('/films/2/')
+
+    @dados_people_name = @dados_people['name']
+    @dados_people_height = @dados_people['height']
+    @dados_people_mass = @dados_people['mass']
+
+    puts "O personagem #{@dados_people_name}, possui a altura de #{@dados_people_height} e pesa #{@dados_people_mass}, participou de vários filmes, incluíndo o filme #{@dados_people_film['title']}."
+    expect(@dados_people_name).to eq 'C-3PO'
+    expect(@dados_people_height).to eq '167'
+    expect(@dados_people_mass).to eq '75'
+    expect(@dados_people_film['title']).to eq 'The Empire Strikes Back'
   end
 end
