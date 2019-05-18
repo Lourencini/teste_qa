@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'fazer uma requisição' do
+describe 'Teste QA' do
   it 'Validando formato do request' do
     puts "\n 1. Validar o formato do request (json valido) para a seguinte API: https://swapi.co/api/films/?format=json"
 
