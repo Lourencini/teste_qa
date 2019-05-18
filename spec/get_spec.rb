@@ -90,7 +90,6 @@ describe 'fazer uma requisição' do
   end
 
   it 'Dados C-3PO' do
-    require 'json'
     puts "\n 8. Validar o peso e altura do “people” C-3PO e validar pelo menos um filme que ele tenha participado."
 
     @dados_people = Acesso.get('/people/2/')
