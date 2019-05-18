@@ -85,13 +85,15 @@ describe 'fazer uma requisição' do
     date = year + month + day.to_s
 
     if date == year + month + day
-      puts "A data está no padrão americano, Y/M/D #{@valida_data['release_date']}"
+      puts "A data está no padrão americano, Y/M/D #{@valida_data['release_date']}."
     else
-      puts "A data está no padrão brasileiro, D/M/Y #{@valida_data['release_date']}"
+      puts "A data está no padrão brasileiro, D/M/Y e não no padrão americano Y/M/D."
     end
   end
 
-  it 'get' do
+  it 'Dados C-3PO' do
     puts "\n 8. Validar o peso e altura do “people” C-3PO e validar pelo menos um filme que ele tenha participado."
+
+    @dados
   end
 end
