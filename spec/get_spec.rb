@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 describe 'Teste QA' do
+
   it 'Validando formato do request' do
     puts "\n 1. Validar o formato do request (json valido) para a seguinte API: https://swapi.co/api/films/?format=json"
 
@@ -104,5 +105,38 @@ describe 'Teste QA' do
     expect(@dados_people_height).to eq '167'
     expect(@dados_people_mass).to eq '75'
     expect(@dados_people_film['title']).to eq 'The Empire Strikes Back'
+  end
+
+  it 'Naves pilotadas por Han Solo' do 
+
+    puts "\n 9. Quais as naves que foram pilotadas por Han Solo"
+
+    @han_solo = Acesso.get('/people/14/')
+    @nave1 = Acesso.get('/starships/10/')
+    @nave2 = Acesso.get('/starships/22/')
+
+    puts "#{@han_solo['name']}, pilotou as naves #{@nave1['name']} e #{@nave2['name']}, nos filmes que participou."
+    expect(@nave1['name']).to eq 'Millennium Falcon'
+    expect(@nave2['name']).to eq 'Imperial shuttle'
+end
+
+  it 'Filmes Millennium Falcon' do
+
+    puts "\n 10. Quais o filmes que a nave Millennium Falcon apareceu"
+
+    @millennium_falcon = Acesso.get('/starships/10/')
+    @filme2 = Acesso.get('/films/2/')
+    @filme7 = Acesso.get('/films/7/')
+    @filme3 = Acesso.get('/films/3/')
+    @filme1 = Acesso.get('/films/1/')
+    @millennium_falcon_films = @filme2['title'] + ", " + @filme7['title'] + ", " + @filme3['title'] + " e " + @filme1['title']
+
+    puts "A nave #{@millennium_falcon['name']}, apareceu nos filmes #{@millennium_falcon_films}."
+  
+    expect(@filme2['title']).to eq 'The Empire Strikes Back'
+    expect(@filme7['title']).to eq 'The Force Awakens'
+    expect(@filme3['title']).to eq 'Return of the Jedi'
+    expect(@filme1['title']).to eq 'A New Hope'
+  
   end
 end
